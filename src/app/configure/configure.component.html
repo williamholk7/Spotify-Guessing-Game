@@ -1,0 +1,36 @@
+<div>
+    <div class="sidebar">
+        <div class="sidebar-elements">
+            <div class="info-div">
+                <button class="info-button white-font" (click)="toggleInfo()">Difficulty?</button>
+            </div>
+            <form class="form-box" [formGroup]="configForm" (ngSubmit)="setConfigValues()">
+                <h2 class="eighty">Genre</h2>
+                <select class="configure-drop-down eighty" formControlName="selectedGenre">
+                    <option [ngValue]="null" disabled>Select a genre</option>
+                    <option *ngFor="let genreOption of genres" [ngValue]="genreOption">{{genreOption}}</option>
+                </select>
+
+                <h2>Difficulty</h2>
+                <select class="configure-drop-down eighty" formControlName="selectedDifficulty">
+                    <option [ngValue]="null" disabled>Select a difficulty</option>
+                    <option *ngFor="let difficultyOption of difficulties" [ngValue]="difficultyOption">{{difficultyOption}}</option>
+                </select>
+                <div>
+                    <button class="configure-button black-font">Configure</button>
+                </div>
+            </form>
+            <p *ngIf="error" class="red">You must choose a genre and a difficulty to configure.</p>
+            <div *ngIf="configured">
+                <p>Configuartion:</p>
+                <p>Genre: {{genre}}</p>
+                <p>Difficulty: {{difficulty}}</p>
+            </div>
+            <div *ngIf="infoShown">
+                <p>Easy: 9 seconds of audio</p>
+                <p>Medium: 5 seconds of audio</p>
+                <p>Hard: 2 seconds of audio</p>
+            </div>
+        </div>
+    </div>
+</div>

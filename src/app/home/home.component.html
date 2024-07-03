@@ -1,0 +1,57 @@
+<head>
+  <title>Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+</head>
+
+
+<body>
+  <div *ngIf="authLoading || configLoading">Loading...</div>
+  <div *ngIf="!authLoading && !configLoading">
+    <nav class="nav">
+      <button class="nav-button" routerLink="/leaderboard">
+        <h1 class="link">Leaderboard</h1>
+      </button>
+      <button *ngIf="!configureSidebarShown" class="nav-button configure" (click)="toggleConfigureButton()">
+        <h1>Configure</h1>
+      </button>
+      <button *ngIf="configureSidebarShown" class="nav-button configure" (click)="toggleConfigureButton()">
+        <h1>Exit Configure</h1>
+      </button>
+    </nav>
+
+    <div class="title">
+      <h1>Who's Who?</h1>
+    </div>
+
+    <form class="form-box" [formGroup]="homeForm">
+      <app-input [control]="$any(homeForm.get('selectedName'))" label="Name"></app-input>
+      
+      <div class="game-mode">
+        <h2 class="game-mode-title">Game Mode</h2>
+        <button class="info-button" (click)="toggleInfoButton()">i</button>
+      </div>
+      <select class="drop-down" formControlName="selectedGameMode">
+        <option [ngValue]="null" disabled>Select a game mode</option>
+        <option value="Game Mode 1">Game Mode 1</option>
+        <option value="Game Mode 2">Game Mode 2</option>
+        <option value="Game Mode 3">Game Mode 3</option>
+      </select>
+      <div>
+        <button class="start black-font" (click)="startPlaying()">Start Playing</button>
+      </div>
+    </form>
+
+    <app-configure class="sidebar" *ngIf="configureSidebarShown"></app-configure>
+
+  </div>
+  <div class="game-mode-info" *ngIf="infoShown">
+    <p>Game Mode 1: Choose the correct song title based on an audio sample</p>
+    <p>Game Mode 2: Choose the correct audio sample based on a given song title</p>
+    <p>Game Mode 3: Choose the correct song title and artist name based on an audio sample</p>
+  </div>
+  <h2 *ngIf="error" class="red">You must enter a name and choose a game mode.</h2>
+</body>

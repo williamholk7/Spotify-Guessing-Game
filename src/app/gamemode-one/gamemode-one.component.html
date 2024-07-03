@@ -1,0 +1,50 @@
+<head>
+    <title>Game Mode 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div *ngIf="authLoading || configLoading">Loading...</div>
+    <div *ngIf="!authLoading && !configLoading">
+        <div class="question-score">
+            <h2>Question {{questionCounter}}/10</h2>
+            <h2 class="score">Score: {{score}}</h2>
+        </div>
+
+        <div class="album-cover">
+            <img class="album-image" src={{this.albumSource}} alt="Album Cover">
+        </div>
+
+        <div *ngIf="!playing" class="play-div">
+            <button class="play-button" (click)="playOrPauseAudio()"><img class="image" src="/assets/play.png"
+                    alt="Play Button"></button>
+        </div>
+        <div *ngIf="playing" class="play-div">
+            <button class="play-button" (click)="playOrPauseAudio()"><img class="image" src="/assets/pause.png"
+                    alt="Play Button"></button>
+        </div>
+        <div>
+            <form class="form-box" [formGroup]="songForm" (ngSubmit)="enter()">
+                <h2>Choose the correct song title</h2>
+                <select class="drop-down" formControlName="selectedSong">
+                    <option [ngValue]="null" disabled>Select a song title</option>
+                    <option *ngFor="let song of songOptions" [ngValue]="song">{{song}}</option>
+                </select>
+                <div>
+                    <button class="enter black-font" *ngIf="!entered">Enter</button>
+                </div>
+            </form>
+        </div>
+        <div class="correct-info">
+            <h3 *ngIf="entered">Correct Answer: {{this.correctSongName}}</h3>
+            <h2 *ngIf="entered">+{{addedPoints}} points</h2>
+            <button class="enter black-font" *ngIf="entered && questionCounter < 10" (click)="nextQuestion()">Next Question</button>
+            <button class="enter black-font" *ngIf="entered && questionCounter === 10" (click)="nextQuestion()">Results</button>
+        </div>
+    </div>
+    <h2 *ngIf="error" class="red">You must choose an answer.</h2>
+</body>
